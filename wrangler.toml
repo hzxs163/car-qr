@@ -1,0 +1,19 @@
+# ==========================================
+# car-qrcode-notify —— Cloudflare Pages Functions 版配置
+# （原 Workers 版为 main = "_worker.js"，Pages 版改为 pages_build_output_dir）
+# ==========================================
+
+name = "movecar-pages"
+pages_build_output_dir = "public"
+compatibility_date = "2024-01-01"
+
+# D1 数据库绑定（变量名必须为 DB，与代码中 env.DB 对应）
+[[d1_databases]]
+binding = "DB"
+database_name = "movecar-db"
+database_id = ""  # 替换为你的 D1 数据库 ID
+
+# KV 命名空间绑定（变量名必须为 DATA，与代码中 env.DATA 对应）
+[[kv_namespaces]]
+binding = "DATA"
+id = ""  # 替换为你的 KV 命名空间 ID
