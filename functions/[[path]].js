@@ -2605,6 +2605,16 @@ function createRoutes(backend, frontend) {
           }
         });
       }
+
+      // 无 id 参数时，跳转到登录页（避免返回 undefined 导致 1101 异常）
+      return new Response(null, {
+        status: 302,
+        headers: {
+          'Location': '/login',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': '*'
+        }
+      });
     }
   };
 
