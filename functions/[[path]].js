@@ -480,7 +480,7 @@ class MoveCarFrontend {
                 <div class="qr-sub">文明沟通 · 方便你我</div>
             </div>
             <p id="qrUrlText" style="word-break:break-all;font-size:12px;color:#9ca3af;margin:10px 0 0;"></p>
-            <div style="display:flex;gap:10px;margin-top:12px;">
+            <div id="qrActions" style="display:flex;gap:10px;margin-top:12px;">
                 <button type="button" class="btn add-btn" style="flex:1;" onclick="window.print()">🖨 打印</button>
                 <button type="button" class="btn cancel-btn" style="flex:1;" onclick="closeQrModal()">关闭</button>
             </div>
@@ -497,6 +497,7 @@ class MoveCarFrontend {
             #qrModal, #qrModal * { visibility: visible; }
             #qrModal { display: flex !important; position: fixed; inset: 0; background: #fff; }
             #qrModal .modal-content { box-shadow: none; max-width: 100%; padding: 16px; }
+            #qrUrlText, #qrActions { display: none !important; }
         }
     </style>
     <script>
