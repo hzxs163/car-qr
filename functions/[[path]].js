@@ -7,7 +7,7 @@ const config = {
   "rateLimitDelay": 300,
   "rateLimitMaxRequests": 5,
   "rateLimitMessage": "我正在赶来的路上,请稍等片刻~~~",
-  "canRegister": true // 是否开启注册功能
+  "canRegister": false // 是否开启注册功能
 }
 
 class MoveCarFrontend {
@@ -2266,6 +2266,9 @@ class MoveCarBackend {
 
   //User相关操作
   async userRegister(json) {
+    if (!this.config.canRegister) {
+      return this.getResponse(JSON.stringify({ code: 400, data: "注册功能已关闭", message: "fail" }), 200);
+    }
     const { user_name, user_pwd } = json;
     if (!user_name || !user_pwd) {
       return this.getResponse(JSON.stringify({ code: 400, data: "用户名和密码不能为空", message: "fail" }), 200);
@@ -2327,9 +2330,12 @@ class MoveCarBackend {
       return this.getResponse(JSON.stringify({ code: 400, data: "用户ID不能为空", message: "fail" }), 200);
     }
 
+    // 先删除该用户的关联数据（车辆、登录会话），避免外键约束导致删除失败
+    await this.DB.prepare('DELETE FROM cars WHERE user_id = ?').bind(id).run();
+    await this.DB.prepare('DELETE FROM tokens WHERE user_id = ?').bind(id).run();
+
     const result = await this.DB.prepare('DELETE FROM users WHERE id = ?').bind(id).run();
-    if (result.changes > 0) {
-      await this.DB.prepare('DELETE FROM tokens WHERE user_id = ?').bind(id).run();
+    if (result.meta && result.meta.changes > 0) {
       return this.getResponse(JSON.stringify({ code: 200, data: "删除成功", message: "success" }), 200);
     }
 
