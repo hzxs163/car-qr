@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>挪车二维码</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+<style>
+  body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background:#f5f6f8; margin:0; padding:30px 15px; text-align:center; }
+  .card { background:#fff; max-width:420px; margin:0 auto; padding:35px 25px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,.08); }
+  .card h1 { font-size:22px; color:#222; margin:0 0 6px; }
+  .card .sub { font-size:14px; color:#888; margin-bottom:25px; }
+  #qr canvas { margin:0 auto; }
+  .url { font-size:13px; color:#aaa; word-break:break-all; margin:20px 0; }
+  .btn { display:block; width:100%; padding:14px; border:none; border-radius:10px; font-size:17px; font-weight:600; cursor:pointer; margin-top:10px; }
+  .print { background:#3b82f6; color:#fff; }
+  .print:hover { background:#2563eb; }
+  .tip { font-size:12px; color:#bbb; margin-top:14px; line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🚗 扫码联系车主挪车</h1>
+  <p class="sub">扫码后点击按钮即可通知车主</p>
+  <div id="qr"></div>
+  <div class="url">https://carq.pages.dev/car/1</div>
+  <button class="btn print" onclick="window.print()">🖨 打印此二维码</button>
+  <p class="tip">建议 A6 尺寸打印，过塑后贴在后挡风玻璃或侧窗内侧</p>
+</div>
+<script>
+  QRCode.toCanvas(document.getElementById('qr'), 'https://carq.pages.dev/car/1', { width: 300, margin: 2 })
+    .catch(function() { document.getElementById('qr').innerHTML = '<p style="color:#c00">二维码加载失败，请检查网络后刷新</p>'; });
+</script>
+</body>
+</html>
