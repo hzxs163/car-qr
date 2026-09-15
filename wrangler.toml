@@ -16,4 +16,4 @@ database_id = "car-qr"  # 替换为你的 D1 数据库 ID
 # KV 命名空间绑定（变量名必须为 DATA，与代码中 env.DATA 对应）
 [[kv_namespaces]]
 binding = "DATA"
-id = "car-qr"  # 替换为你的 KV 命名空间 ID
+id = "0c73286632de485fb398317c06dd110e"  # 替换为你的 KV 命名空间 ID
