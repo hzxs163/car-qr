@@ -10,8 +10,8 @@ compatibility_date = "2024-01-01"
 # D1 数据库绑定（变量名必须为 DB，与代码中 env.DB 对应）
 [[d1_databases]]
 binding = "DB"
-database_name = "movecar-db"
-database_id = "car-qr"  # 替换为你的 D1 数据库 ID
+database_name = "car-qr"
+database_id = "feae8b8f-0527-4ee1-b52e-6562e08073d9"  # 替换为你的 D1 数据库 ID
 
 # KV 命名空间绑定（变量名必须为 DATA，与代码中 env.DATA 对应）
 [[kv_namespaces]]
