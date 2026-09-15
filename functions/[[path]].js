@@ -26,6 +26,9 @@ class MoveCarFrontend {
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .login-container { background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); padding: 40px; width: 100%; max-width: 400px; }
+        @media (max-width: 768px) {
+            .login-container { padding: 28px 20px; }
+        }
         .login-container h2 { text-align: center; margin-bottom: 30px; color: #333; font-size: 24px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
@@ -143,6 +146,9 @@ class MoveCarFrontend {
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .register-container { background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); padding: 40px; width: 100%; max-width: 400px; }
+        @media (max-width: 768px) {
+            .register-container { padding: 28px 20px; }
+        }
         .register-container h2 { text-align: center; margin-bottom: 30px; color: #333; font-size: 24px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
@@ -271,6 +277,20 @@ class MoveCarFrontend {
         .nav-item.logout { color: #dc3545; }
         .nav-item.logout:hover { background: rgba(220,53,69,0.2); }
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        @media (max-width: 768px) {
+            .container { padding: 12px; }
+            .navbar { padding: 10px 12px; }
+            .navbar-container { flex-wrap: wrap; gap: 6px; }
+            .navbar-menu { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+            .navbar-menu::-webkit-scrollbar { display: none; }
+            .nav-item { white-space: nowrap; padding: 8px 12px; font-size: 13px; }
+            .header { flex-direction: column; align-items: stretch; gap: 10px; }
+            .header .actions { display: flex; gap: 8px; }
+            .header .actions .btn { flex: 1; }
+            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 760px; }
+            .modal-content { max-width: 94vw; padding: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -364,6 +384,20 @@ class MoveCarFrontend {
         @keyframes spin { to { transform: rotate(360deg); } }
         .btn-loading { position: relative; pointer-events: none; opacity: 0.7; }
         .btn-loading::after { content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @media (max-width: 768px) {
+            .container { padding: 12px; }
+            .navbar { padding: 10px 12px; }
+            .navbar-container { flex-wrap: wrap; gap: 6px; }
+            .navbar-menu { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+            .navbar-menu::-webkit-scrollbar { display: none; }
+            .nav-item { white-space: nowrap; padding: 8px 12px; font-size: 13px; }
+            .header { flex-direction: column; align-items: stretch; gap: 10px; }
+            .header .actions { display: flex; gap: 8px; }
+            .header .actions .btn { flex: 1; }
+            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 760px; }
+            .modal-content { max-width: 94vw; padding: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -860,6 +894,20 @@ class MoveCarFrontend {
         @keyframes spin { to { transform: rotate(360deg); } }
         .btn-loading { position: relative; pointer-events: none; opacity: 0.7; }
         .btn-loading::after { content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @media (max-width: 768px) {
+            .container { padding: 12px; }
+            .navbar { padding: 10px 12px; }
+            .navbar-container { flex-wrap: wrap; gap: 6px; }
+            .navbar-menu { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+            .navbar-menu::-webkit-scrollbar { display: none; }
+            .nav-item { white-space: nowrap; padding: 8px 12px; font-size: 13px; }
+            .header { flex-direction: column; align-items: stretch; gap: 10px; }
+            .header .actions { display: flex; gap: 8px; }
+            .header .actions .btn { flex: 1; }
+            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 760px; }
+            .modal-content { max-width: 94vw; padding: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -1150,6 +1198,20 @@ class MoveCarFrontend {
         @keyframes spin { to { transform: rotate(360deg); } }
         .btn-loading { position: relative; pointer-events: none; opacity: 0.7; }
         .btn-loading::after { content: ''; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @media (max-width: 768px) {
+            .container { padding: 12px; }
+            .navbar { padding: 10px 12px; }
+            .navbar-container { flex-wrap: wrap; gap: 6px; }
+            .navbar-menu { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+            .navbar-menu::-webkit-scrollbar { display: none; }
+            .nav-item { white-space: nowrap; padding: 8px 12px; font-size: 13px; }
+            .header { flex-direction: column; align-items: stretch; gap: 10px; }
+            .header .actions { display: flex; gap: 8px; }
+            .header .actions .btn { flex: 1; }
+            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 760px; }
+            .modal-content { max-width: 94vw; padding: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -1432,6 +1494,20 @@ class MoveCarFrontend {
         .method-GET { background: #d4edda; color: #155724; }
         .method-POST { background: #fff3cd; color: #856404; }
         .method-PUT { background: #cce5ff; color: #004085; }
+        @media (max-width: 768px) {
+            .container { padding: 12px; }
+            .navbar { padding: 10px 12px; }
+            .navbar-container { flex-wrap: wrap; gap: 6px; }
+            .navbar-menu { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+            .navbar-menu::-webkit-scrollbar { display: none; }
+            .nav-item { white-space: nowrap; padding: 8px 12px; font-size: 13px; }
+            .header { flex-direction: column; align-items: stretch; gap: 10px; }
+            .header .actions { display: flex; gap: 8px; }
+            .header .actions .btn { flex: 1; }
+            .table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 760px; }
+            .modal-content { max-width: 94vw; padding: 16px; }
+        }
     </style>
 </head>
 <body>
