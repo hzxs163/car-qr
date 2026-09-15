@@ -466,8 +466,12 @@ class MoveCarFrontend {
                     <div id="notifyTip" class="tip-box"></div>
                 </div>
                 <div class="form-group">
-                    <label>通知Token</label>
-                    <textarea id="formNotifyToken" placeholder="请输入通知Token"></textarea>
+                    <label>AppToken（应用令牌）</label>
+                    <input type="text" id="formAppToken" placeholder="WxPusher 的 appToken，例如：AT_xxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label>UID（接收用户ID）</label>
+                    <input type="text" id="formUid" placeholder="WxPusher 的 uid，例如：UID_xxxxxxxx">
                 </div>
                 <div class="form-group">
                     <div class="checkbox-group">
@@ -679,7 +683,8 @@ class MoveCarFrontend {
             document.getElementById('formNo').value = '';
             document.getElementById('formPhone').value = '';
             document.getElementById('formNotifyId').value = '';
-            document.getElementById('formNotifyToken').value = '';
+            document.getElementById('formAppToken').value = '';
+            document.getElementById('formUid').value = '';
             document.getElementById('notifyTip').classList.remove('show');
             document.getElementById('formIsNotify').checked = true;
             document.getElementById('formIsCall').checked = true;
@@ -719,7 +724,11 @@ class MoveCarFrontend {
                         document.getElementById('formNo').value = item.no || '';
                         document.getElementById('formPhone').value = item.phone || '';
                         document.getElementById('formNotifyId').value = item.notify_id || '';
-                        document.getElementById('formNotifyToken').value = item.notify_token || '';
+                        const tokenObj = (() => {
+                            try { const o = JSON.parse(item.notify_token || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; }
+                        })();
+                        document.getElementById('formAppToken').value = tokenObj.appToken || '';
+                        document.getElementById('formUid').value = tokenObj.uid || '';
                         document.getElementById('formIsNotify').checked = item.is_notify === 1;
                         document.getElementById('formIsCall').checked = item.is_call === 1;
                         document.getElementById('formTemplateId').value = item.template_id || '';
@@ -758,7 +767,12 @@ class MoveCarFrontend {
                 phone: document.getElementById('formPhone').value.trim(),
                 notify_id: notifyId || 0,
                 notify_name: notifyName,
-                notify_token: document.getElementById('formNotifyToken').value.trim(),
+                notify_token: (() => {
+                    const appToken = document.getElementById('formAppToken').value.trim();
+                    const uid = document.getElementById('formUid').value.trim();
+                    if (appToken || uid) { return JSON.stringify({ appToken: appToken, uid: uid }); }
+                    return '';
+                })(),
                 is_notify: document.getElementById('formIsNotify').checked ? 1 : 0,
                 is_call: document.getElementById('formIsCall').checked ? 1 : 0,
                 template_id: templateId || 0,
