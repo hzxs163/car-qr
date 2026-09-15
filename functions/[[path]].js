@@ -1089,7 +1089,7 @@ class MoveCarFrontend {
             showLoading();
             
             try {
-                const url = id ? '/api/user/update' : '/api/user/register';
+                const url = id ? '/api/user/update' : '/api/user/add';
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
@@ -2291,6 +2291,29 @@ class MoveCarBackend {
     return this.getResponse(JSON.stringify({ code: 200, data: "注册成功", message: "success" }), 200);
   }
 
+  // 管理员在后台添加用户（不受公开注册开关限制）
+  async userAdd(json) {
+    const { user_name, user_pwd, user_role, status } = json;
+    if (!user_name || !user_pwd) {
+      return this.getResponse(JSON.stringify({ code: 400, data: "用户名和密码不能为空", message: "fail" }), 200);
+    }
+
+    const existingUser = await this.DB.prepare('SELECT id FROM users WHERE user_name = ?').bind(user_name).first();
+    if (existingUser) {
+      return this.getResponse(JSON.stringify({ code: 400, data: "用户名已存在", message: "fail" }), 200);
+    }
+
+    const hashedPwd = await this.hashPassword(user_pwd);
+    const role = user_role === 1 ? 1 : 2;
+    const st = status === 0 ? 0 : 1;
+
+    await this.DB.prepare(
+      'INSERT INTO users (user_name, user_pwd, user_role, add_time, status) VALUES (?, ?, ?, ?, ?)'
+    ).bind(user_name, hashedPwd, role, new Date().toISOString(), st).run();
+
+    return this.getResponse(JSON.stringify({ code: 200, data: "添加成功", message: "success" }), 200);
+  }
+
   async userLogin(json) {
     const { user_name, user_pwd } = json;
     if (!user_name || !user_pwd) {
@@ -2715,6 +2738,7 @@ function createRoutes(backend, frontend) {
     '/api/notify/call': withJson((req, json) => backend.notifyCall(json)),
 
     '/api/user/register': withJson((req, json) => backend.userRegister(json)),
+    '/api/user/add': withAuth(backend, withJson((req, json) => backend.userAdd(json)), 1),
     '/api/user/login': withJson((req, json) => backend.userLogin(json)),
 
     '/api/notifyList': () => backend.getNotifyList(),
