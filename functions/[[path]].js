@@ -468,24 +468,35 @@ class MoveCarFrontend {
     </div>
     <div id="toast" class="toast"></div>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0-rc.1/lib/qr-code-styling.js"></script>
     <!-- 二维码弹窗 -->
     <div id="qrModal" class="modal">
-        <div class="modal-content" style="max-width:360px;text-align:center;">
-            <h2>车辆挪车二维码</h2>
-            <div id="qrCanvasBox" style="display:flex;justify-content:center;margin:12px 0;"></div>
-            <p id="qrUrlText" style="word-break:break-all;font-size:13px;color:#666;margin:10px 0;"></p>
-            <div style="display:flex;gap:10px;">
-                <button type="button" class="btn add-btn" style="flex:1;" onclick="window.print()">打印</button>
+        <div class="modal-content" style="max-width:400px;text-align:center;">
+            <div id="qrCard">
+                <div class="qr-card-top"><span style="font-size:18px;">🚗</span> 扫码联系车主挪车</div>
+                <div class="qr-car-no" id="qrCarNo"></div>
+                <div id="qrCanvasBox" style="display:flex;justify-content:center;margin:6px 0 10px;"></div>
+                <div class="qr-tip">请扫码联系我挪车</div>
+                <div class="qr-sub">文明沟通 · 方便你我</div>
+            </div>
+            <p id="qrUrlText" style="word-break:break-all;font-size:12px;color:#9ca3af;margin:10px 0 0;"></p>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+                <button type="button" class="btn add-btn" style="flex:1;" onclick="window.print()">🖨 打印</button>
                 <button type="button" class="btn cancel-btn" style="flex:1;" onclick="closeQrModal()">关闭</button>
             </div>
         </div>
     </div>
     <style>
+        #qrCard { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+        .qr-card-top { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: #fff; padding: 14px; font-size: 16px; font-weight: 600; letter-spacing: 1px; }
+        .qr-car-no { font-size: 26px; font-weight: 700; color: #111827; letter-spacing: 4px; padding: 14px 0 4px; }
+        .qr-tip { font-size: 15px; color: #374151; font-weight: 600; padding: 2px 0; }
+        .qr-sub { font-size: 12px; color: #9ca3af; padding: 2px 0 14px; }
         @media print {
             body * { visibility: hidden; }
             #qrModal, #qrModal * { visibility: visible; }
             #qrModal { display: flex !important; position: fixed; inset: 0; background: #fff; }
-            #qrModal .modal-content { box-shadow: none; max-width: 100%; }
+            #qrModal .modal-content { box-shadow: none; max-width: 100%; padding: 16px; }
         }
     </style>
     <script>
@@ -549,23 +560,38 @@ class MoveCarFrontend {
                 tipBox.classList.remove('show');
             }
         }
-        function showQrModal(carId) {
+        function showQrModal(carId, carNo) {
             var url = 'https://carq.pages.dev/car/' + carId;
+            document.getElementById('qrCarNo').textContent = carNo || '';
             document.getElementById('qrUrlText').textContent = url;
             var box = document.getElementById('qrCanvasBox');
             box.innerHTML = '';
-            if (typeof QRCode === 'undefined') {
-                box.innerHTML = '<div style="font-size:14px;color:#c00;line-height:1.8;">二维码组件加载失败<br>请复制下方链接到 <a href="https://cli.im" target="_blank">草料二维码</a> 生成</div>';
-            } else {
+            var done = false;
+            if (typeof QRCodeStyling !== 'undefined') {
+                try {
+                    var qr = new QRCodeStyling({
+                        width: 240, height: 240, margin: 0, data: url,
+                        dotsOptions: { color: '#2563eb', type: 'rounded' },
+                        cornersSquareOptions: { color: '#1d4ed8', type: 'extra-rounded' },
+                        cornersDotOptions: { color: '#3b82f6', type: 'dot' },
+                        backgroundOptions: { color: '#ffffff' }
+                    });
+                    qr.append(box);
+                    done = true;
+                } catch (e) { box.innerHTML = ''; }
+            }
+            if (!done && typeof QRCode !== 'undefined') {
                 try {
                     var canvas = document.createElement('canvas');
                     box.appendChild(canvas);
-                    QRCode.toCanvas(canvas, url, { width: 280, margin: 2 }, function(err) {
-                        if (err) { box.innerHTML = '<div style="font-size:14px;color:#c00;">二维码生成失败，请重试</div>'; }
+                    QRCode.toCanvas(canvas, url, { width: 240, margin: 2, color: { dark: '#2563eb', light: '#ffffff' } }, function(err) {
+                        if (err) { box.innerHTML = '<div style="font-size:13px;color:#c00;">二维码生成失败</div>'; }
                     });
-                } catch (e) {
-                    box.innerHTML = '<div style="font-size:14px;color:#c00;">二维码生成失败，请重试</div>';
-                }
+                    done = true;
+                } catch (e) { box.innerHTML = ''; }
+            }
+            if (!done) {
+                box.innerHTML = '<div style="font-size:13px;color:#c00;line-height:1.8;">二维码组件加载失败<br>请复制下方链接到 <a href="https://cli.im" target="_blank">草料二维码</a> 生成</div>';
             }
             document.getElementById('qrModal').style.display = 'flex';
         }
@@ -605,7 +631,7 @@ class MoveCarFrontend {
                     <td><span class="\${item.status === 1 ? 'status-active' : 'status-disabled'}">\${item.status === 1 ? '启用' : '禁用'}</span></td>
                     <td>
                         <button class="btn notify-btn" onclick="notifyMessage('\${item.id}')">通知</button>
-                        <button class="btn qr-btn" onclick="showQrModal('\${item.id}')">二维码</button>
+                        <button class="btn qr-btn" onclick="showQrModal('\${item.id}', '\${item.no || ''}')">二维码</button>
                         <button class="btn edit-btn" onclick="showEditModal('\${item.id}')">编辑</button>
                         <button class="btn delete-btn" onclick="deleteCar('\${item.id}')">删除</button>
                     </td>
